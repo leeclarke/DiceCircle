@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="DiceCircle">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <script src="//hangoutsapi.appspot.com/static/hangout.js"></script>
+      <!-- Your application code -->
+      <script type="text/javascript">google.load("jquery", "1.3.2");</script>
+	    <script type="text/javascript" src="//hangoutsapi.appspot.com/static/hangout.js"></script>
+	    <script type="text/javascript" src="jsdice.js"></script>
+	    <script type="text/javascript" src="diceCircle.js"></script>
+	  
+	    <link type="text/css" rel="stylesheet" href="diceCircle.css" />
+    ]]>
+  </Content>
+</Module>
