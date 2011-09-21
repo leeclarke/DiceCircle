@@ -1,6 +1,16 @@
-function getInitData(){
+/**
+ * Shared state of the app.
+ * @type {Object.<!string, !string>}
+ * @private
+ */
+var state_ = null;
 
-}
+/**
+ * A list of the participants.
+ * @type {Array.<gapi.hangout.Participant>}
+ * @private
+ */
+var participants_ = null;
 
 /**
  * Syncs local copy of the participants list with that on the server and renders
@@ -24,21 +34,22 @@ function prepareAppDOM() {
   jsdiceEl = $("<div id='jsdice' class='hidden'>").append(resultsEL,inpEL);
   mainEL = $("<div id='main'>").append(jsdiceEl);
 
-  var body = $("body");
-  body.load(function(e) { 
-	  document.getElementById('jsdice').className=''; 
-	  document.getElementById('inp_text').focus(); 
+  var body = $("body").append(mainEL);
+}
+
+function activateForm() { 
+	  $('#jsdice').show(); 
+	  $('#inp_text').focus(); 
 	  jokerizer();
 	}  
-  ).append(mainEL);
-}
 
 (function() {
   if (gapi && gapi.hangout) {
 
     var initHangout = function() {
       prepareAppDOM();
-
+	  activateForm();
+	  
       gapi.hangout.data.addStateChangeListener(onStateChanged);
       gapi.hangout.addParticipantsListener(onParticipantsChanged);
 
