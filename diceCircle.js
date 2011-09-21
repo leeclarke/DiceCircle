@@ -17,52 +17,20 @@ function onParticipantsChanged(participants) {
  * Set up the UI
  */
 prepareAppDOM() {
+  formulaEL= $("<input id='inp_text' type='text' onkeypress='return inp_keydown(event);' /><button id='inp_go' onclick='go();'>Go!</button>");
+  helpEL = $("<small>Dice to roll: [<a href='javascript:doHelp();'>Help</a>]</small><br />");
+  inpEL = $("<div id='inp'>").append(helpEL,formulaEL);
+  resultsEL = $("<div id='results'></div>");
+  jsdiceEl = $("<div id='jsdice' class='hidden'>").append(resultsEL,inpEL);
+  mainEL = $("<div id='main'>").append(jsdiceEl);
 
-//TODO: Replace with needed UI elements
-  statusInput_ = $('<input />')
-      .attr({
-        'id': 'status-input',
-        'type': 'text',
-        'maxlength': MAX_STATUS_LENGTH
-      });
-  statusForm_ = $('<form />')
-      .attr({
-        'action': '',
-        'id': 'status-form'
-      })
-      .append(statusInput_);
-
-  var statusDiv = $('<div />')
-      .attr('id', 'status-box')
-      .addClass('status-box')
-      .append(statusForm_);
-
-  statusForm_.submit(function() {
-    onSubmitStatus();
-    return false;
-  });
-
-  statusInput_.keypress(function(e) {
-    if (e.which === 13) {
-      defer(onSubmitStatus);
-    }
-    e.stopPropagation();
-  }).blur(function(e) {
-    onSubmitStatus();
-    e.stopPropagation();
-  }).mousedown(function(e) {
-    e.stopPropagation();
-  }).hide();
-
-  container_ = $('<div />');
-
-  var body = $('body');
-  body.mousedown(function(e) {
-    if (statusVisible_) {
-      onSubmitStatus();
-    }
-    e.stopPropagation();
-  }).append(container_, statusDiv);
+  var body = $("body");
+  body.load(function(e) { 
+	  document.getElementById('jsdice').className=''; 
+	  document.getElementById('inp_text').focus(); 
+	  jokerizer();
+	}  
+  ).append(mainEL);
 }
 
 (function() {
