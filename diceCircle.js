@@ -16,7 +16,7 @@ function onParticipantsChanged(participants) {
 /**
  * Set up the UI
  */
-prepareAppDOM() {
+function prepareAppDOM() {
   formulaEL= $("<input id='inp_text' type='text' onkeypress='return inp_keydown(event);' /><button id='inp_go' onclick='go();'>Go!</button>");
   helpEL = $("<small>Dice to roll: [<a href='javascript:doHelp();'>Help</a>]</small><br />");
   inpEL = $("<div id='inp'>").append(helpEL,formulaEL);

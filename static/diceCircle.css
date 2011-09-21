@@ -1,15 +1,230 @@
 /* Zero default margin & padding around common elements */
-body, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, li, ol, p, ul {
-  margin: 0;
-  border: 0 none #fff;
-  padding: 0;
+body {
+    text-align: center;
+    background: #000;
+    color: #ffc;
+    padding: 1em;
 }
 
-body {
-  background-color: #fff;
-  color: #000;
-  line-height: 1.4;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 85%;
-  text-align: left;
+a {
+    color: #0ff;
+}
+
+#main {
+    text-align: left;
+    border: 1px solid #777;
+    background: #600;
+    padding: 0;
+    width: 700px;
+    margin: auto;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -opera-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#main h1 {
+    /*background: #ffc;*/
+    padding: .3em 0;
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: normal;
+    color: #ffc;
+    border-bottom: 1px solid #777;
+    margin: 0 10px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+#main h1 a {
+    color: #ffc;
+    text-decoration: none;
+}
+
+#main h6 {
+    /*background: #ffc;*/
+    padding: 0;
+    margin: 0;
+    font-size: .75em;
+    padding: .215em 0;
+    font-weight: normal;
+    color: #ffc;
+    border-top: 1px solid #777;
+    margin: 0 10px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+#results {
+    margin: 20px 40px 5px 40px;
+    padding: 8px;
+    border: 1px solid #fff;
+    height: 20em;
+    overflow: auto;
+    background-color: #505048;
+    color: #ffe;
+}
+
+#inp {
+    margin: 8px 32px 16px 32px;
+    text-indent: 8px;
+}
+
+#inp input {
+    width: 560px;
+    height: 16px;
+    margin: 0;
+    border: 1px solid gray;
+    border-right: none;
+    padding: 1px 6px;
+    -moz-border-radius-topleft: 1em;
+    -moz-border-radius-bottomleft: 1em;
+    -webkit-border-top-left-radius: 1em;
+    -webkit-border-bottom-left-radius: 1em;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    vertical-align: top;
+    background-color: #f8ffff;
+}
+
+#inp input:focus {
+}
+
+#inp button{
+    width: 60px;
+    height: 20px;
+    margin: 0;
+    border: 1px solid gray;
+    -moz-border-radius-topright: 1em;
+    -moz-border-radius-bottomright: 1em;
+    -webkit-border-top-right-radius: 1em;
+    -webkit-border-bottom-right-radius: 1em;
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+    background-color: #e0e8f0;
+}
+
+#inp button:hover {
+    border: 1px solid black;
+}
+
+#pre {
+    margin: 8px 32px 8px 32px;
+}
+
+#pre button{
+    font-size: 1.2em;
+    height: 1.5em;
+    margin: 0;
+    margin-right: 4px;
+    border: 1px solid gray;
+    -moz-border-radius: .75em;
+    -webkit-border-radius: .75em;
+    border-radius: .75em;
+}
+
+#pre button:hover {
+    border: 1px solid black;
+}
+
+.roll_source {
+    margin-top: .3em;
+    margin-bottom: 3px;
+}
+
+.roll_source em{
+    color: #ff0;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.roll_source a {
+    color: #8ee;
+}
+
+.roll_result {
+    margin: 0 1em;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.roll_result  strong{
+    font-size: 1.2em;
+    color: white;
+    background: #111;
+    padding: 1px .5em;
+    -moz-border-radius: 1em;
+}
+
+.roll_result  sub{
+    font-size: .6em;
+}
+
+.roll_help {
+    margin: 0 1em;
+    padding: 0.3em;
+    text-align: justify;
+    color: #ffa;
+    font-size: .85em;
+}
+
+.roll_help strong {
+    color: #ffe;
+}
+
+.roll_help hr {
+    border: none;
+    border-bottom: 1px solid #777;
+}
+
+.roll_help a {
+    color: #8ee;
+}
+
+.roll_help ul {
+    padding: 0 1em;
+    margin: 0 1em;
+}
+
+.hidden {
+    display: none;
+}
+
+noscript  div {
+    margin: 20px 40px 5px 40px;
+    text-align: justify;
+    display: block;
+}
+
+noscript h2 {
+    text-align: center;
+    color: #ee7;
+    font-weight: normal;
+}
+
+#contact  {
+    margin: 15px 40px 5px 40px;
+    text-align: justify;
+    font-size: .85em;
+    color: #ee7;
+}
+
+#contact p {
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+#contact button{
+    margin: 0;
+    border: 1px solid gray;
+    -moz-border-radius: .75em;
+    -webkit-border-radius: .75em;
+    border-radius: .75em;
+    background: #ea3;
+    color: #028;
+}
+
+#contact button:hover {
+    border: 1px solid #a81;
 }

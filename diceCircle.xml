@@ -8,12 +8,13 @@
     <![CDATA[
       <script src="//hangoutsapi.appspot.com/static/hangout.js"></script>
       <!-- Your application code -->
-      <script type="text/javascript">google.load("jquery", "1.3.2");</script>
+		<script type="text/javascript" src="//www.google.com/jsapi"></script>
+		<script type="text/javascript">google.load("jquery", "1.6.4");</script>
 	    <script type="text/javascript" src="//hangoutsapi.appspot.com/static/hangout.js"></script>
-	    <script type="text/javascript" src="jsdice.js"></script>
-	    <script type="text/javascript" src="diceCircle.js"></script>
+	    <script type="text/javascript" src="http://lees2bytes.com/projects/DiceCircle/jsdice.js"></script>
+	    <script type="text/javascript" src="http://lees2bytes.com/projects/DiceCircle/diceCircle.js"></script>
 	  
-	    <link type="text/css" rel="stylesheet" href="diceCircle.css" />
+	    <link type="text/css" rel="stylesheet" href="http://lees2bytes.com/projects/DiceCircle/static/diceCircle.css" />
     ]]>
   </Content>
 </Module>
