@@ -55,14 +55,28 @@ a {
     text-align: center;
 }
 
-#results {
-    margin: 20px 40px 5px 40px;
+#group {
+    margin: 20px 10px 5px 20px;
     padding: 8px;
     border: 1px solid #fff;
-    height: 12em;
+    width: 300px;
+    height: 13em;
     overflow: auto;
     background-color: #505048;
     color: #ffe;
+    float:left;
+}
+
+#results {
+    margin: 20px 20px 5px 10px;
+    padding: 8px;
+    border: 1px solid #fff;
+    width: 300px;
+    height: 13em;
+    overflow: auto;
+    background-color: #505048;
+    color: #ffe;
+    float:right;
 }
 
 #inp {

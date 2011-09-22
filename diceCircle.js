@@ -31,8 +31,9 @@ function prepareAppDOM() {
   helpEL = $("<small>Dice to roll: [<a href='javascript:doHelp();'>Help</a>]</small><br />");
   inpEL = $("<div id='inp'>").append(helpEL,formulaEL);
   resultsEL = $("<div id='results'></div>");
+  groupEL = $("<div id='group'></div>");
   preEL = $("<div id='pre'></div>").append('<button id="pre_d4" onclick="doRoll(\'1d4\');">d4</button><button id="pre_d6" onclick="doRoll(\'1d6\');">d6</button><button id="pre_d8" onclick="doRoll(\'1d8\');">d8</button><button id="pre_d10" onclick="doRoll(\'1d10\');">d10</button><button id="pre_d12" onclick="doRoll(\'1d12\');">d12</button><button id="pre_d20" onclick="doRoll(\'1d20\');">d20</button><button id="pre_d100" onclick="doRoll(\'1d100\');">d100</button><button id="pre_clear" onclick="doClear();">Clear</button>');
-  jsdiceEl = $("<div id='jsdice' class='hidden'>").append(resultsEL,inpEL,preEL);
+  jsdiceEl = $("<div id='jsdice' class='hidden'>").append(groupEL,resultsEL,inpEL,preEL);
   mainEL = $("<div id='main'>").append(jsdiceEl);
 
   var body = $("body").append(mainEL);
@@ -40,6 +41,9 @@ function prepareAppDOM() {
 
 function activateForm() { 
 	  $('#jsdice').show(); 
+	  var ht = ($('#main').height())-100;
+	  $('#group').height(ht);
+	  $('#results').height(ht);
 	  $('#inp_text').focus(); 
 	  jokerizer();
 	}  
