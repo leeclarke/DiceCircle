@@ -2,19 +2,17 @@
 <Module>
   <ModulePrefs title="DiceCircle">
     <Require feature="rpc"/>
-    <Require feature="views"/>
   </ModulePrefs>
-  <Content type="html">
-    <![CDATA[
-      <script src="//hangoutsapi.appspot.com/static/hangout.js"></script>
-      <!-- Your application code -->
+  <Content type="html"><![CDATA[
+    <!DOCTYPE html>
 		<script type="text/javascript" src="//www.google.com/jsapi"></script>
 		<script type="text/javascript">google.load("jquery", "1.6.4");</script>
+		<script src="//hangoutsapi.appspot.com/static/hangout.js"></script>
+		
 	    <script type="text/javascript" src="//hangoutsapi.appspot.com/static/hangout.js"></script>
 	    <script type="text/javascript" src="http://lees2bytes.com/projects/DiceCircle/jsdice.js"></script>
 	    <script type="text/javascript" src="http://lees2bytes.com/projects/DiceCircle/diceCircle.js"></script>
 	  
 	    <link type="text/css" rel="stylesheet" href="http://lees2bytes.com/projects/DiceCircle/static/diceCircle.css" />
-    ]]>
-  </Content>
+    ]]></Content>
 </Module>

@@ -71,6 +71,7 @@ function rollDice(dice)
 		var str = resultStr(data);
 		el.innerHTML += '<div class="roll_source"><small><strong>Roll:</strong></small> <a href="javascript:doRoll(\''+dice+'\');"><code>'+dice+'</code></a></div>';
 		el.innerHTML += '<div class="roll_result">' + str + '</div>';
+		addNewDieRoll(str+"|"+dice);
 	}
 	else {
 		el.innerHTML += '<div class="roll_source"><small><strong>Roll:</strong></small> <code>'+dice+'</code> <small>[<strong><em>Error in the roll formula</em></strong>]</small></div>';

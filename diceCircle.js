@@ -16,9 +16,106 @@ var participants_ = null;
 /**
  * Describes the shared state of the object.
  * @type {Object.<!string, Object.<!string, *>>}
- * @private
+ * @privatevar 
  */
 var metadata_ = null;
+
+/**
+ * The list of group dice rolls from shared state.
+ */
+var rollHistory_  = null;
+
+var ROLL_HISTORY = "ROLL_HISTORY";
+
+( function(){
+  /**
+   * Makes an RPC call to add and/or remove the given value(s) from the shared
+   * state.
+   * @param {?(string|Object.<!string, !string>)} addState  Either an object
+   *     denoting the desired key value pair(s), or a single string key.
+   * @param {?(string|Object.<!string, !string>)} opt_removeState A list of keys
+   *     to remove from the shared state.
+   */
+  var submitDeltaInternal = function(addState, opt_removeState) {
+    gapi.hangout.data.submitDelta(addState, opt_removeState);
+  };
+
+/**
+   * Packages the parameters into a delta object for use with submitDelta.
+   * @param {!(string|Object.<!string, !string>)}  Either an object denoting
+   *     the desired key value pair(s), or a single string key.
+   * @param {!string} opt_value If keyOrState is a string, the associated string
+   *     value.
+   */
+  var prepareForSave = function(keyOrState, opt_value) {
+    var state = null;
+    if (typeof keyOrState === 'string') {
+      state = {};
+      state[keyOrState] = opt_value;
+    } else if (typeof keyOrState === 'object' && null !== keyOrState) {
+      // Ensure that no prototype-level properties are hitching a ride.
+      state = {};
+      for (var key in keyOrState) {
+        if (keyOrState.hasOwnProperty(key)) {
+          state[key] = keyOrState[key];
+        }
+      }
+    } else {
+      throw 'Unexpected argument.';
+    }
+    return state;
+  };
+
+  /**
+   * Packages one or more keys to remove for use with submitDelta.
+   * @param {!(string|Array.<!string>)} keyOrListToRemove A single key
+   *     or an array of strings to remove from the shared state.
+   * @return {!Array.<!string>} A list of keys to remove from the shared state.
+   */
+  var prepareForRemove = function(keyOrListToRemove) {
+    var delta = null;
+    if (typeof keyOrListToRemove === 'string') {
+      delta = [keyOrListToRemove];
+    } else if (typeof keyOrListToRemove.length === 'number' &&
+               keyOrListToRemove.propertyIsEnumerable('length')) {
+      // Discard non-string elements.
+      for (var i = 0, iLen = keyOrListToRemove.length; i < iLen; ++i) {
+        if (typeof keyOrListToRemove[i] === 'string') {
+          delta.push(keyOrListToRemove[i]);
+        }
+      }
+    } else {
+      throw 'Unexpected argument.';
+    }
+    return delta;
+  };
+
+  saveValue = function(keyOrState, opt_value) {
+    var delta = prepareForSave(keyOrState, opt_value);
+    if (delta) {
+      submitDeltaInternal(delta);
+    }
+  };
+
+  removeValue = function(keyOrListToRemove) {
+    var delta = prepareForRemove(keyOrListToRemove);
+    if (delta) {
+      submitDeltaInternal({}, delta);
+    }
+  };
+
+  submitDelta = function(addState, opt_removeState) {
+    if ((typeof addState !== 'object' && typeof addState !== 'undefined') ||
+        (typeof opt_removeState !== 'object' &&
+         typeof opt_removeState !== 'undefined')) {
+      throw 'Unexpected value for submitDelta';
+    }
+    var toAdd = addState ? prepareForSave(addState) : {};
+    var toRemove = opt_removeState ? prepareForRemove(opt_removeState) :
+        undefined;
+    submitDeltaInternal(toAdd, toRemove);
+  };	
+})();
 
 /**
  * Syncs local copy of the participants list with that on the server and renders
@@ -33,16 +130,6 @@ function onParticipantsChanged(participants) {
 
 
 /**
- * Creates a key for use in the shared state.
- * @param {!string} id The user's hangoutId.
- * @param {!string} key The property to create a key for.
- * @return {!string} A new key for use in the shared state.
- */
-function makeUserKey(id, key) {
-  return id + ':' + key;
-}
-
-/**
  * Syncs local copies of shared state with those on the server and renders the
  *     app to reflect the changes.
  * @param {!Array.<Object.<!string, *>>} add Entries added to the shared state.
@@ -54,7 +141,20 @@ function makeUserKey(id, key) {
 function onStateChanged(add, remove, state, metadata) {
   state_ = state;
   metadata_ = metadata;
+  setRollHistory();
   render();
+}
+
+function setRollHistory() {
+	var histSerialized = getMetadata(ROLL_HISTORY);	
+	if (typeof serializedForm !== 'string') {
+		return null;
+	}
+	rollHistory_ = $.parseJSON(histSerialized);
+}
+
+function initRollHistory() {
+	return {"rolls":[]};
 }
 
 /**
@@ -77,6 +177,25 @@ function getUserHangoutId() {
 }
 
 /**
+ * Generates a unique key for the new date going into the shared state.
+ */
+function getUserDataId() {
+	return Date.now()+"|"+getUserHangoutId();
+}
+
+/**
+ * Adds a new die roll to the shared state. Since you can only store Strings 
+ * in the shared state it must be parsed for display later.
+ * @param {dieRoll <String|String>} Roll outcome  dice|result
+ */
+function addNewDieRoll(dieRoll) {
+	console.log("New Die roll "+dieRoll);
+	var newRoll = {"participantId":getUserParticipant().id, "dieRoll":dieRoll };
+	rollHistory_.rolls.push(newRoll);
+	saveValue(ROLL_HISTORY, JSON.stringify(rollHistory_));
+}
+
+/**
  * @return {Participant} Users hangout object.
  */
 function getUserParticipant() {
@@ -88,14 +207,23 @@ function getUserParticipant() {
  * 
  */ 
 function render() {
-	
 	//get Participant and display info
-	var user = getUserParticipant()
-	$("#group").html("Name:" + user.displayName + "<BR>id:" + user.id);
+	
+	//var user = getUserParticipant();
+	
+	console.log("do render");
+	//$("#group").html("Name:" + user.displayName + "<BR>id:" + user.id);
+	
+	var rollOutput = "";
+	for(r =0; r<rollHistory_.rolls.length; r++) {
+		var rEntry = rollHistory_.rolls[r];
+		rollOutput += rEntry.participantId + ":&nbsp;" + rEntry.dieRoll;
+	}
+	$("#group").html(rollOutput);
 }
 
 function showUser(){
-	var user = getUserParticipant()
+	var user = getUserParticipant();
 	$("#group").html("Name:" + user.displayName + "<BR>id:" + user.id);
 }
 
@@ -128,13 +256,14 @@ function activateForm() {
   if (gapi && gapi.hangout) {
 
     var initHangout = function() {
-      prepareAppDOM();
+		
+	  if(!rollHistory_) {
+		 rollHistory_ = initRollHistory();
+	  }
+	  prepareAppDOM();
 	  activateForm();
 	  
-      gapi.hangout.data.addStateChangeListener(onStateChanged);
-      gapi.hangout.addParticipantsListener(onParticipantsChanged);
-
-      if (!state_) {
+	  if (!state_) {
         var initState = gapi.hangout.data.getState();
         var initMetadata = gapi.hangout.data.getStateMetadata();
         // Since this is the first push, added has all the values in metadata in
@@ -156,9 +285,18 @@ function activateForm() {
           onParticipantsChanged(initParticipants);
         }
       }
-
+	  
       gapi.hangout.removeApiReadyListener(initHangout);
     };
+    
+      
+	  
+	  gapi.hangout.addParticipantsListener(onParticipantsChanged);
+      gapi.hangout.data.addStateChangeListener(onStateChanged);
+      
+
+    
+      
 
     gapi.hangout.addApiReadyListener(initHangout);
   }
