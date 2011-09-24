@@ -175,6 +175,49 @@ a {
     font-size: .6em;
 }
 
+.roll_group_name {
+	font-family: monospace;
+    font-weight: bold;
+    font-size: 1.5em;
+    float: left;
+}
+
+.roll_group_result {
+    margin: 0 1em;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1.2em;
+    
+}
+
+.roll_group_result  strong{
+    font-size: 1.2em;
+    color: white;
+    background: #111;
+    padding: 1px .5em;
+    -moz-border-radius: 1em;
+}
+
+.roll_group_result  sub{
+    font-size: .6em;
+}
+
+.roll_group_source {
+    margin-top: .3em;
+    margin-bottom: 3px;
+    
+}
+
+.roll_group_source em{
+    color: #ff0;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.roll_group_source a {
+    color: #8ee;
+}
+
 .roll_help {
     margin: 0 1em;
     padding: 0.3em;

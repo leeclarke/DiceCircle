@@ -147,10 +147,10 @@ function onStateChanged(add, remove, state, metadata) {
 
 function setRollHistory() {
 	var histSerialized = getMetadata(ROLL_HISTORY);	
-	if (typeof serializedForm !== 'string') {
+	if (typeof histSerialized.value !== 'string') {
 		return null;
 	}
-	rollHistory_ = $.parseJSON(histSerialized);
+	rollHistory_ = $.parseJSON(histSerialized.value);
 }
 
 function initRollHistory() {
@@ -190,7 +190,7 @@ function getUserDataId() {
  */
 function addNewDieRoll(dieRoll) {
 	console.log("New Die roll "+dieRoll);
-	var newRoll = {"participantId":getUserParticipant().id, "dieRoll":dieRoll };
+	var newRoll = {"participant":getUserParticipant(), "dieRoll":dieRoll };
 	rollHistory_.rolls.push(newRoll);
 	saveValue(ROLL_HISTORY, JSON.stringify(rollHistory_));
 }
@@ -201,23 +201,28 @@ function addNewDieRoll(dieRoll) {
 function getUserParticipant() {
   return gapi.hangout.getParticipantById(gapi.hangout.getParticipantId());
 }
+
+function getParticipantName(id) {
+	for(p=0; p< participants_.length ;p++) {
+		if(participants_[p].id == id) {
+			return participants_[p].displayName;
+		}
+	}
+}
  
 /**
  * Render chared data to the group display.
  * 
  */ 
-function render() {
-	//get Participant and display info
-	
-	//var user = getUserParticipant();
-	
+function render() {	
 	console.log("do render");
-	//$("#group").html("Name:" + user.displayName + "<BR>id:" + user.id);
 	
 	var rollOutput = "";
 	for(r =0; r<rollHistory_.rolls.length; r++) {
 		var rEntry = rollHistory_.rolls[r];
-		rollOutput += rEntry.participantId + ":&nbsp;" + rEntry.dieRoll;
+		rollOutput += "<span><div class='roll_group_name'>" + rEntry.participant.displayName + ":</div>"
+		rollOutput += "<span><div class='roll_group_source'><small><strong>Roll:</strong></small> <a href='javascript:doRoll(\''+dice+'\');'><code>"+rEntry.dieRoll.dice+"</code></a></div>";
+		rollOutput += '<div class="roll_group_result">' + rEntry.dieRoll.result + "</div></span></span><br>";
 	}
 	$("#group").html(rollOutput);
 }
