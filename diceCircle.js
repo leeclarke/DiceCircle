@@ -149,8 +149,12 @@ function setRollHistory() {
 	var histSerialized = getMetadata(ROLL_HISTORY);	
 	if (typeof histSerialized.value !== 'string') {
 		return null;
+	} else if(histSerialized.value === "") {
+		//Was reset, init
+		rollHistory_ = initRollHistory();
+	} else {
+		rollHistory_ = $.parseJSON(histSerialized.value);
 	}
-	rollHistory_ = $.parseJSON(histSerialized.value);
 }
 
 function initRollHistory() {
@@ -215,8 +219,6 @@ function getParticipantName(id) {
  * 
  */ 
 function render() {	
-	console.log("do render");
-	
 	var rollOutput = "";
 	for(r =0; r<rollHistory_.rolls.length; r++) {
 		var rEntry = rollHistory_.rolls[r];
@@ -225,6 +227,9 @@ function render() {
 		rollOutput += '<div class="roll_group_result">' + rEntry.dieRoll.result + "</div></span></span><br>";
 	}
 	$("#group").html(rollOutput);
+	//$("#group").prop("scrollHeight");
+	$("#group").prop("scrollTop", $("#group").prop("scrollHeight"));//    animate({ scrollTop: $("#group").attr("scrollHeight") - $('#group').height() }, 3000);
+
 }
 
 function showUser(){
@@ -261,9 +266,10 @@ function activateForm() {
   if (gapi && gapi.hangout) {
 
     var initHangout = function() {
-		
+		removeValue(ROLL_HISTORY);
 	  if(!rollHistory_) {
 		 rollHistory_ = initRollHistory();
+		 saveValue(ROLL_HISTORY, JSON.stringify(rollHistory_));
 	  }
 	  prepareAppDOM();
 	  activateForm();
@@ -294,14 +300,8 @@ function activateForm() {
       gapi.hangout.removeApiReadyListener(initHangout);
     };
     
-      
-	  
 	  gapi.hangout.addParticipantsListener(onParticipantsChanged);
       gapi.hangout.data.addStateChangeListener(onStateChanged);
-      
-
-    
-      
 
     gapi.hangout.addApiReadyListener(initHangout);
   }
