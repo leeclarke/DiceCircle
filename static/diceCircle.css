@@ -182,12 +182,19 @@ a {
     float: left;
 }
 
+.roll_group_name_me {
+	font-family: monospace;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: yellow;
+    float: left;
+}
+
 .roll_group_result {
     margin: 0 1em;
     font-family: monospace;
     font-weight: bold;
     font-size: 1.2em;
-    
 }
 
 .roll_group_result  strong{

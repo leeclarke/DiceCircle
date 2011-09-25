@@ -222,7 +222,11 @@ function render() {
 	var rollOutput = "";
 	for(r =0; r<rollHistory_.rolls.length; r++) {
 		var rEntry = rollHistory_.rolls[r];
-		rollOutput += "<span><div class='roll_group_name'>" + rEntry.participant.displayName + ":</div>"
+		if(getUserParticipant().id  === rEntry.participant.id ) {
+			rollOutput += "<span><div class='roll_group_name_me'>" + rEntry.participant.displayName + ":</div>"
+		} else {
+			rollOutput += "<span><div class='roll_group_name'>" + rEntry.participant.displayName + ":</div>"
+		}
 		rollOutput += "<span><div class='roll_group_source'><small><strong>Roll:</strong></small> <a href='javascript:doRoll(\''+dice+'\');'><code>"+rEntry.dieRoll.dice+"</code></a></div>";
 		rollOutput += '<div class="roll_group_result">' + rEntry.dieRoll.result + "</div></span></span><br>";
 	}
